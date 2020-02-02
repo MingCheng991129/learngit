@@ -152,9 +152,52 @@
 
 命令`git stash list`查看所有已经保存的工作现场。可以通过`git stash apply stash@{0}`恢复指定的stash。
 
-在master分支上修复的bug，想要合并到当前dev分支，用`git cherry-pick 4c805e2`命令，其中`4c805e2`为之前修复bug的commit id。
+在master分支上修复的bug，想要合并到当前dev分支，用`git cherry-pick 4c805e2`命令(来复制提交到当前分支)，其中`4c805e2`为之前修复bug的commit id。
 
+### Feature分支
 
+开发一个新feature，最好新建一个分支；
+
+如果要丢弃一个没有被合并过的分支，可以通过`git branch -D <name>`强行删除。其中，`<name>`为分支的名字。
+
+### 多人协作
+
+查看远程库信息：`git remote -v`
+
+在本地创建和远程分支对应的分支，使用`git checkout -b branch-name origin/branch-name`，本地和远程分支的名称最好一致；
+
+多人协作的工作模式通常是这样：
+
+1. 首先，可以试图用`git push origin <branch-name>`推送自己的修改；
+2. 如果推送失败，则因为远程分支比你的本地更新，需要先用`git pull`试图合并；
+3. 如果合并有冲突，则解决冲突，并在本地提交；
+4. 没有冲突或者解决掉冲突后，再用`git push origin <branch-name>`推送就能成功。
+
+如果`git pull`提示`no tracking information`，则说明本地分支和远程分支的链接关系没有创建，用命令`git branch --set-upstream-to <branch-name> origin/<branch-name>`。
+
+## 标签管理
+
+### 创建标签
+
+1. `git tag v1.0`：创建标签v1.0
+
+   标签默认是打在最新的commit上的，若要打在过去某个commit上，应该先查看commit id，再打标签：
+
+   `git log --pretty=oneline --abbrev-commit`	`git tag <tagname> <commit id>`
+
+2. `git tag`命令查看所有的标签
+
+3. `git show <tagname>`查看某个标签的具体信息
+
+4. 创建标签的同时添加说明：`git tag -a v0.1 -m “comment” <commit id> `。其中，`-a`指定标签名，`-m`指定说明文字。
+
+### 操作标签
+
+1. 推送标签到远程：
+   1. 推送某个标签：`git push origin v1.0`
+   2. 推送所有未被推送的标签：`git push origin –-tags`
+2. 删除本地标签：`git tag -d v0.1`
+3. 删除远程标签：`git push origin :refs/tags/<tagname>`。
 
 
 
