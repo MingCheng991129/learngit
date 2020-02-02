@@ -134,6 +134,26 @@
 
 ### 分支管理策略
 
+从分支历史上看分支信息：禁用`Fast forward`模式，Git就会在合并分支时生成新的commit。使用`--no-ff`方式。
+
+**`Fast forward`方式能看到曾经做过合并，`-–no-ff`方式看不出做过合并。**
+
+例如，merge时使用`git merge --no-ff -m “merge with no-ff”`后，便可以用`git log`查看历史。
+
+### 分支策略
+
+实际开发过程中，`master`分支应该是非常稳定的，也就是仅用来发布新版本，平时不能在上面干活；应该在新创建的分支上干活。
+
+### Bug分支
+
+修复bug时，应该创建新的分支来进行修复，然后合并，最后删除。
+
+当手头工作还没有commit时，先把工作现场`git stash`一下，然后修复bug，修复完之后再`git stash pop`，回到工作现场。
+
+命令`git stash list`查看所有已经保存的工作现场。可以通过`git stash apply stash@{0}`恢复指定的stash。
+
+在master分支上修复的bug，想要合并到当前dev分支，用`git cherry-pick 4c805e2`命令，其中`4c805e2`为之前修复bug的commit id。
+
 
 
 
